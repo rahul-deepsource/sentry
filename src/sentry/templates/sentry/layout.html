@@ -46,6 +46,7 @@
 
   {% block scripts %}
   {% locale_js_include %}
+
   {% manifest_asset_url "sentry" "runtime.js" as asset_url %}
   {% script src=asset_url %}{% endscript %}
 
