@@ -381,6 +381,8 @@ let appConfig = {
   output: {
     path: distPath,
     filename: '[name].js',
+    chunkFilename: '[name].[contenthash].js',
+    publicPath: '/_static/1615340694/sentry/dist/',
 
     // Rename global that is used to async load chunks
     // Avoids 3rd party js from overwriting the default name (webpackJsonp)
@@ -388,6 +390,7 @@ let appConfig = {
     sourceMapFilename: '[name].js.map',
   },
   optimization: {
+    runtimeChunk: {name: 'runtime'},
     splitChunks: {
       chunks: 'all',
       maxInitialRequests: 5,
@@ -545,6 +548,9 @@ if (IS_PRODUCTION) {
   minificationPlugins.forEach(function (plugin) {
     appConfig.plugins.push(plugin);
   });
+
+  const {WebpackManifestPlugin} = require('webpack-manifest-plugin');
+  appConfig.plugins.push(new WebpackManifestPlugin({}));
 }
 
 if (env.MEASURE) {

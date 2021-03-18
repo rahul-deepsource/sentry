@@ -4,7 +4,8 @@
 declare var __webpack_public_path__: string;
 
 /**
- * Set the webpack public path at runtime. This is necessary so that imports can be resolved properly
+ * Set the webpack public path at runtime. This is necessary so that imports
+ * can be resolved properly
  *
  * NOTE: This MUST be loaded before any other app modules in the entrypoint.
  *

@@ -45,10 +45,11 @@
 
   {% block scripts %}
   {% locale_js_include %}
-  {% asset_url "sentry" "dist/vendor.js" as asset_url %}
-  {% script src=asset_url %}{% endscript %}
 
-  {% asset_url "sentry" "dist/app.js" as asset_url %}
+  {% asset_url "sentry" "dist/runtime.js" as asset_url %}
+  {% script src=asset_url data-entry="true" %}{% endscript %}
+
+  {% asset_url "sentry" "dist/app.fe044c07a9a5e3295d29.js" as asset_url %}
   {% script src=asset_url data-entry="true" %}{% endscript %}
 
   {% injected_script_assets as injected_assets %}
