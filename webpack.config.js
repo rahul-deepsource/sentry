@@ -390,11 +390,18 @@ let appConfig = {
   output: {
     path: distPath,
     filename: '[name].js',
+    chunkFilename: '[name].[contenthash].js',
+    publicPath: '/_static/1615340694/sentry/dist/',
+
+    // Rename global that is used to async load chunks
+    // Avoids 3rd party js from overwriting the default name (webpackJsonp)
+    jsonpFunction: 'sntryWpJsonp',
     sourceMapFilename: '[name].js.map',
   },
   optimization: {
     chunkIds: 'named',
     moduleIds: 'named',
+    runtimeChunk: {name: 'runtime'},
     splitChunks: {
       // Only affect async chunks, otherwise webpack could potentially split our initial chunks
       // Which means the app will not load because we'd need these additional chunks to be loaded in our
@@ -557,6 +564,9 @@ if (IS_PRODUCTION) {
   minificationPlugins.forEach(function (plugin) {
     appConfig.plugins.push(plugin);
   });
+
+  const {WebpackManifestPlugin} = require('webpack-manifest-plugin');
+  appConfig.plugins.push(new WebpackManifestPlugin({}));
 }
 
 if (env.MEASURE) {
