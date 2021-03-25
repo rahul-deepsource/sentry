@@ -20,9 +20,6 @@ const bootApplication = (data: Config) => {
 
   // Once data hydration is done we can initialize the app
   require('./bootstrap');
-  document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOMContentLoaded');
-  });
   window.SentryRenderApp();
 };
 
