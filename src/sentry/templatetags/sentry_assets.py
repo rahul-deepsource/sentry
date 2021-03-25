@@ -6,12 +6,13 @@ from django.template.base import token_kwargs
 from django.utils.safestring import mark_safe
 
 from sentry import options
-from sentry.utils.assets import get_asset_url
+from sentry.utils.assets import get_asset_url, get_manfifest_url
 from sentry.utils.http import absolute_uri
 
 register = template.Library()
 
 register.simple_tag(get_asset_url, name="asset_url")
+register.simple_tag(get_manfifest_url, name="manifest_asset_url")
 
 
 @register.simple_tag

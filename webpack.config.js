@@ -391,7 +391,6 @@ let appConfig = {
     path: distPath,
     filename: '[name].js',
     chunkFilename: '[name].[contenthash].js',
-    publicPath: '/_static/1615340694/sentry/dist/',
 
     // Rename global that is used to async load chunks
     // Avoids 3rd party js from overwriting the default name (webpackJsonp)
