@@ -3,7 +3,7 @@ from django.conf import settings
 from manifest_loader.utils import _get_manifest, _load_from_manifest
 
 
-def get_manfifest_url(module, key):
+def get_manifest_url(module, key):
     """
     Returns an asset URL that is produced by webpack. Uses webpack's manifest to map
     `key` to the asset produced by webpack. Required if using file contents based hashing for filenames.
