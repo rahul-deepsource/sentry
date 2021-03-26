@@ -17,7 +17,7 @@ class StaticMediaTest(TestCase):
 
     @override_settings(DEBUG=False)
     def test_versioned(self):
-        url = "/_static/1234567890/sentry/js/ads.js"
+        url = "/_static/sentry/js/ads.js"
         response = self.client.get(url)
         assert response.status_code == 200, response
         assert response["Cache-Control"] == FOREVER_CACHE
@@ -25,7 +25,7 @@ class StaticMediaTest(TestCase):
         assert response["Access-Control-Allow-Origin"] == "*"
         "Content-Encoding" not in response
 
-        url = "/_static/a43db3b08ddd4918972f80739f15344b/sentry/js/ads.js"
+        url = "/_static/sentry/js/ads.js"
         response = self.client.get(url)
         assert response.status_code == 200, response
         assert response["Cache-Control"] == FOREVER_CACHE
