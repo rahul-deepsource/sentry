@@ -222,7 +222,7 @@ class BuildIncidentAttachmentTest(TestCase):
             + "/?referrer=slack",
             "callback_id": '{"issue":' + str(group.id) + "}",
             "fallback": f"[{self.project.slug}] {group.title}",
-            "footer_icon": "http://testserver/_static/sentry/images/sentry-email-avatar.png",
+            "footer_icon": "http://testserver/_assets/sentry/images/sentry-email-avatar.png",
         }
         event = self.store_event(data={}, project_id=self.project.id)
         ts = event.datetime
@@ -269,7 +269,7 @@ class BuildIncidentAttachmentTest(TestCase):
             + "/?referrer=slack",
             "callback_id": '{"issue":' + str(group.id) + "}",
             "fallback": f"[{self.project.slug}] {event.title}",
-            "footer_icon": "http://testserver/_static/sentry/images/sentry-email-avatar.png",
+            "footer_icon": "http://testserver/_assets/sentry/images/sentry-email-avatar.png",
         }
 
         assert build_group_attachment(group, event, link_to_event=True) == {
@@ -314,7 +314,7 @@ class BuildIncidentAttachmentTest(TestCase):
             + "?referrer=slack",
             "callback_id": '{"issue":' + str(group.id) + "}",
             "fallback": f"[{self.project.slug}] {event.title}",
-            "footer_icon": "http://testserver/_static/sentry/images/sentry-email-avatar.png",
+            "footer_icon": "http://testserver/_assets/sentry/images/sentry-email-avatar.png",
         }
 
     def test_build_group_attachment_color_no_event_error_fallback(self):

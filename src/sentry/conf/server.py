@@ -368,7 +368,7 @@ SILENCED_SYSTEM_CHECKS = (
 )
 
 STATIC_ROOT = os.path.realpath(os.path.join(PROJECT_ROOT, "static"))
-STATIC_URL = "/_static/"
+STATIC_URL = "/_assets/"
 
 
 # The webpack output directory, used by django-manifest-loader
@@ -382,7 +382,7 @@ MANIFEST_LOADER = {"cache": True}
 # various middleware will use this to identify resources which should not access
 # cookies
 ANONYMOUS_STATIC_PREFIXES = (
-    "/_static/",
+    STATIC_URL,
     "/avatar/",
     "/organization-avatar/",
     "/team-avatar/",

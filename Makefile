@@ -91,6 +91,9 @@ test-js-ci: node-version-check
 test-python:
 	@echo "--> Running Python tests"
 	# This gets called by getsentry
+	# manifest.json is a webpack artifact, we can just have an empty one for backend tests
+	mkdir -p src/sentry/static/sentry/dist
+	echo "{}" > src/sentry/static/sentry/dist/manifest.json
 	pytest tests/integration tests/sentry
 
 test-python-ci:
