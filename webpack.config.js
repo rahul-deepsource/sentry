@@ -565,7 +565,7 @@ if (IS_PRODUCTION) {
   });
 }
 
-if (IS_PRODUCTION || IS_TEST) {
+if (IS_PRODUCTION || IS_TEST || IS_ACCEPTANCE_TEST) {
   const {WebpackManifestPlugin} = require('webpack-manifest-plugin');
   appConfig.plugins.push(new WebpackManifestPlugin({}));
 }
