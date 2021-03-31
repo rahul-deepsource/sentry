@@ -547,7 +547,9 @@ if (IS_PRODUCTION) {
   minificationPlugins.forEach(function (plugin) {
     appConfig.plugins.push(plugin);
   });
+}
 
+if (IS_PRODUCTION || IS_TEST) {
   const {WebpackManifestPlugin} = require('webpack-manifest-plugin');
   appConfig.plugins.push(new WebpackManifestPlugin({}));
 }
