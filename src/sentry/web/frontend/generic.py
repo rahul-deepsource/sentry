@@ -7,8 +7,6 @@ from django.contrib.staticfiles import finders
 from django.http import Http404, HttpResponseNotFound
 from django.views import static
 
-from sentry.utils.assets import get_manifest_obj
-
 FOREVER_CACHE = "max-age=315360000"
 NEVER_CACHE = "max-age=0, no-cache, no-store, must-revalidate"
 
