@@ -7,8 +7,6 @@ from django.contrib.staticfiles import finders
 from django.http import Http404, HttpResponseNotFound
 from django.views import static
 
-from sentry.utils.assets import get_manifest_obj
-
 FOREVER_CACHE = "max-age=315360000"
 NEVER_CACHE = "max-age=0, no-cache, no-store, must-revalidate"
 
@@ -39,27 +37,16 @@ def static_media_with_manifest(request, **kwargs):
     """
     Serve static files that are generated with webpack.
 
-    Static files that are generated with webpack will have a hash (based on file contents) in its filename.
-    A lookup needs to happen so we can
+    Only these assets should have a long TTL as its filename has a hash based on file contents
     """
-
-    manifest_obj = get_manifest_obj()
-
     path = kwargs.get("path", "")
 
-    is_from_webpack_manifest = manifest_obj is not None and path in manifest_obj
-
-    # This.... should not happen
-    if not is_from_webpack_manifest:
-        return static_media(request, **kwargs)
-
-    kwargs["path"] = f"dist/{manifest_obj[path]}"
+    kwargs["path"] = f"dist/{path}"
     response = static_media(request, **kwargs)
 
-    if settings.DEBUG:
-        return response
+    if not settings.DEBUG:
+        response["Cache-Control"] = FOREVER_CACHE
 
-    response["Cache-Control"] = FOREVER_CACHE
     return response
 
 
