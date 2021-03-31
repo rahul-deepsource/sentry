@@ -1,13 +1,50 @@
-/**
- * This added layer is used so that we can force webpack to make a new chunk.
- *
- * The idea is that the "runtimeChunk" and this chunk will never be cached and they will
- * be used to load the SPA. We want minimal logic in here and let webpack do its magic
- * with creating the initial application chunks.
- */
-function app() {
-  // TODO(billy): Error handling?
-  import(/* webpackChunkName: "init" */ './init');
+// These imports (core-js and regenerator-runtime) are replacements for deprecated `@babel/polyfill`
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
+
+import {Config} from 'app/types';
+
+const BOOTSTRAP_URL = '/api/client-config/';
+
+function renderApp() {
+  if (document.readyState === 'complete') {
+    window.SentryRenderApp();
+  } else {
+    document.addEventListener('DOMContentLoaded', () => window.SentryRenderApp());
+  }
 }
 
-app();
+const bootApplication = (data: Config) => {
+  const {csrfCookieName, sentryConfig, userIdentity} = data;
+
+  // TODO(epurkhiser): Would be great if we could remove some of these from
+  // existing on the window object and instead pass into a bootstrap function.
+  // We can't currently do this due to some of these globals needing to be
+  // available for modules imported by the bootstrap.
+  window.csrfCookieName = csrfCookieName;
+  window.__SENTRY__OPTIONS = sentryConfig;
+  window.__SENTRY__USER = userIdentity;
+  window.__initialData = data;
+
+  // Once data hydration is done we can initialize the app
+  require('./bootstrap');
+  renderApp();
+};
+
+async function bootWithHydration() {
+  const response = await fetch(BOOTSTRAP_URL);
+  const data: Config = await response.json();
+
+  bootApplication(data);
+}
+
+const bootstrapData = window.__initialData;
+
+// If __initialData is not already set on the window, we are likely running in
+// pure SPA mode, meaning django is not serving our frontend application and we
+// need to make an API request to hydrate the bootstrap data to boot the app.
+if (bootstrapData === undefined) {
+  bootWithHydration();
+} else {
+  bootApplication(bootstrapData);
+}
