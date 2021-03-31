@@ -1,6 +1,7 @@
 import os
 from django.test.utils import override_settings
 from sentry.testutils import TestCase
+from sentry.utils.assets import get_manifest_url
 from sentry.web.frontend.generic import FOREVER_CACHE, NEVER_CACHE
 
 
@@ -26,7 +27,8 @@ class StaticMediaTest(TestCase):
         }
 
         with self.static_asset_manifest(app_manifest):
-            url = "/_static/sentry/dist/app.js"
+            # `get_manifest_url()` should return the mapped filename
+            url = get_manifest_url("sentry", "app.js")
 
             response = self.client.get(url)
             assert response.status_code == 200, response
