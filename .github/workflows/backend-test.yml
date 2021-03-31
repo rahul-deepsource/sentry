@@ -80,9 +80,6 @@ jobs:
         run: |
           # Note: `USE_SNUBA` is not used for backend tests because there are a few failing tests with Snuba enabled.
           unset USE_SNUBA
-          # manifest.json is a webpack artifact, we can just have an empty one for backend tests
-          mkdir -p src/sentry/static/sentry/dist
-          echo "{}" >> src/sentry/static/sentry/dist/manifest.json
           make test-python-ci
 
       - name: Handle artifacts
