@@ -20,6 +20,11 @@ def pytest_configure(config):
     # Create an empty webpack manifest file - otherwise tests will crash if it does not exist
     os.makedirs(dist_path, exist_ok=True)
 
+    # Only create manifest if it doesn't exist
+    # (e.g. acceptance tests will have an actual manifest from webpack)
+    if os.path.exists(manifest_path):
+        return
+
     with open(manifest_path, "w+") as fp:
         fp.write("{}")
 
