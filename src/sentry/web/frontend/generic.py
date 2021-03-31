@@ -60,7 +60,6 @@ def static_media(request, **kwargs):
     if module:
         path = f"{module}/{path}"
 
-    print("static_media", path)
     try:
         document_root, path = resolve(path)
     except Http404:
