@@ -376,6 +376,9 @@ STATICFILES_DIRS = [
     os.path.join(STATIC_ROOT, "sentry", "dist"),
 ]
 
+# django-manifest-loader settings
+MANIFEST_LOADER = {"cache": True}
+
 # various middleware will use this to identify resources which should not access
 # cookies
 ANONYMOUS_STATIC_PREFIXES = (
