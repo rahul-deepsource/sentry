@@ -392,7 +392,7 @@ let appConfig = {
   },
   output: {
     path: distPath,
-    filename: '[name].js',
+    filename: '[name].[contenthash].js',
     chunkFilename: '[name].[contenthash].js',
 
     // Rename global that is used to async load chunks
