@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 const {CleanWebpackPlugin} = require('clean-webpack-plugin'); // installed via npm
+const {WebpackManifestPlugin} = require('webpack-manifest-plugin');
 const webpack = require('webpack');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -299,6 +300,8 @@ let appConfig = {
   plugins: [
     new CleanWebpackPlugin(),
 
+    new WebpackManifestPlugin({}),
+
     /**
      * jQuery must be provided in the global scope specifically and only for
      * bootstrap, as it will not import jQuery itself.
@@ -474,7 +477,7 @@ if (
 
     appConfig.devServer = {
       ...appConfig.devServer,
-      publicPath: '/_webpack',
+      publicPath: '/_static/sentry/dist',
       // syntax for matching is using https://www.npmjs.com/package/micromatch
       proxy: {
         '/api/store/**': relayAddress,
@@ -482,11 +485,9 @@ if (
         '/api/0/relays/outcomes/': relayAddress,
         '!/_webpack': backendAddress,
       },
-      before: app =>
-        app.use((req, _res, next) => {
-          req.url = req.url.replace(/^\/_static\/[^\/]+\/sentry\/dist/, '/_webpack');
-          next();
-        }),
+      writeToDisk: filePath => {
+        return /manifest\.json/.test(filePath);
+      },
     };
   }
 }
@@ -563,11 +564,6 @@ if (IS_PRODUCTION) {
   minificationPlugins.forEach(function (plugin) {
     appConfig.plugins.push(plugin);
   });
-}
-
-if (IS_PRODUCTION || IS_TEST || IS_ACCEPTANCE_TEST) {
-  const {WebpackManifestPlugin} = require('webpack-manifest-plugin');
-  appConfig.plugins.push(new WebpackManifestPlugin({}));
 }
 
 if (env.MEASURE) {
