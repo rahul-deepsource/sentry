@@ -11,6 +11,7 @@ import {ExtraErrorData} from '@sentry/integrations';
 import * as Sentry from '@sentry/react';
 import SentryRRWeb from '@sentry/rrweb';
 import {Integrations} from '@sentry/tracing';
+import {_browserPerformanceTimeOriginMode} from '@sentry/utils';
 import createReactClass from 'create-react-class';
 import jQuery from 'jquery';
 import moment from 'moment';
@@ -93,6 +94,13 @@ Sentry.init({
     : window.__SENTRY__OPTIONS.whitelistUrls,
   integrations: getSentryIntegrations(hasReplays),
   tracesSampleRate,
+});
+
+// Track timeOrigin Selection by the SDK to see if it improves transaction durations
+Sentry.addGlobalEventProcessor((event: Sentry.Event, _hint?: Sentry.EventHint) => {
+  event.tags = event.tags || {};
+  event.tags['timeOrigin.mode'] = _browserPerformanceTimeOriginMode;
+  return event;
 });
 
 if (window.__SENTRY__USER) {
