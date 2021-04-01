@@ -1038,8 +1038,6 @@ def resolve_condition(cond, column_resolver):
             # Nested function
             if isinstance(arg, (list, tuple)):
                 func_args[i] = resolve_condition(arg, column_resolver)
-            if isinstance(arg, set):
-                func_args[i] = arg
             else:
                 func_args[i] = column_resolver(arg)
         cond[index + 1] = func_args
