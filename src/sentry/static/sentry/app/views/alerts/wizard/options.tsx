@@ -12,11 +12,9 @@ export type AlertType =
   | 'lcp'
   | 'fid'
   | 'cls'
-  | 'fp'
-  | 'fcp'
-  | 'ttfb';
+  | 'fcp';
 
-export const WebVitalAlertTypes = new Set(['lcp', 'fid', 'cls', 'fp', 'fcp', 'ttfb']);
+export const WebVitalAlertTypes = new Set(['lcp', 'fid', 'cls', 'fcp']);
 
 export const AlertWizardAlertNames: Record<AlertType, string> = {
   issues: t('Issues'),
@@ -29,9 +27,7 @@ export const AlertWizardAlertNames: Record<AlertType, string> = {
   lcp: t('Longest Contentful Paint'),
   fid: t('First Input Delay'),
   cls: t('Cumulative Layout Shift'),
-  fp: t('First Paint'),
   fcp: t('First Contentful Paint'),
-  ttfb: t('Time to First Byte'),
 };
 
 export const AlertWizardOptions: {
@@ -52,9 +48,7 @@ export const AlertWizardOptions: {
       'lcp',
       'fid',
       'cls',
-      'fp',
       'fcp',
-      'ttfb',
     ],
   },
 ];
@@ -175,17 +169,6 @@ export const AlertWizardPanelContent: Record<AlertType, PanelContent> = {
     ],
     docsLink: 'https://docs.sentry.io/product/performance/web-vitals',
   },
-  fp: {
-    description: t(
-      'First Paint (FP), like Largest Contentful Paint (LCP), measures loading performance. Specifically, it marks the point when the first pixel renders on the screen. We recommend an FP of less than 500 milliseconds.'
-    ),
-    examples: [
-      t(
-        'When first paint takes longer than 250ms, create a Jira ticket and assign it to a team.'
-      ),
-    ],
-    docsLink: 'https://docs.sentry.io/product/performance/web-vitals',
-  },
   fcp: {
     description: t(
       'First Contentful Paint (FCP), like Largest Contentful Paint (LCP), measures loading performance. Specifically, it marks the point when content such as text and images can first be seen on a page.'
@@ -193,17 +176,6 @@ export const AlertWizardPanelContent: Record<AlertType, PanelContent> = {
     examples: [
       t(
         'When first contentful paint of a specific page is above 0.25, send an email to the team.'
-      ),
-    ],
-    docsLink: 'https://docs.sentry.io/product/performance/web-vitals',
-  },
-  ttfb: {
-    description: t(
-      "Measures the time it takes for a user's browser to receive the first byte of page content. This includes time spent on DNS lookup, connection negotiation, network latency, and unloading the previous document."
-    ),
-    examples: [
-      t(
-        'When the time to first byte is above 600ms, send a notification to a Slack channel.'
       ),
     ],
     docsLink: 'https://docs.sentry.io/product/performance/web-vitals',
@@ -265,18 +237,8 @@ export const AlertWizardRuleTemplates: Record<
     dataset: Dataset.TRANSACTIONS,
     eventTypes: EventTypes.TRANSACTION,
   },
-  fp: {
-    aggregate: 'p95(measurements.fp)',
-    dataset: Dataset.TRANSACTIONS,
-    eventTypes: EventTypes.TRANSACTION,
-  },
   fcp: {
     aggregate: 'p95(measurements.fcp)',
-    dataset: Dataset.TRANSACTIONS,
-    eventTypes: EventTypes.TRANSACTION,
-  },
-  ttfb: {
-    aggregate: 'p95(measurements.ttfb)',
     dataset: Dataset.TRANSACTIONS,
     eventTypes: EventTypes.TRANSACTION,
   },
