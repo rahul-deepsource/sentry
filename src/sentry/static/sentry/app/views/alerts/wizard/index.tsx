@@ -171,6 +171,18 @@ const WizardPanel = styled(Panel)`
   display: flex;
   flex-direction: column;
   align-items: start;
+  animation: 0.2s pop linear forwards;
+
+  @keyframes pop {
+    0% {
+      transform: translateY(30px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
 `;
 
 const WizardPanelBody = styled(PanelBody)`
