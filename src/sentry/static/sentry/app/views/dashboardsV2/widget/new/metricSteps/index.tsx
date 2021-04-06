@@ -26,7 +26,7 @@ function MetricSteps({
     <React.Fragment>
       <BuildStep
         title={t('Choose your y-axis metric')}
-        description={t('Determine what type of metric you want to graph by.')}
+        description={t('Determine what types of metric you want to graph by.')}
       >
         <SelectField
           name="metric"
