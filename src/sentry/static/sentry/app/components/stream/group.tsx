@@ -43,6 +43,7 @@ import EventView from 'app/utils/discover/eventView';
 import {queryToObj} from 'app/utils/stream';
 import withGlobalSelection from 'app/utils/withGlobalSelection';
 import withOrganization from 'app/utils/withOrganization';
+import {TimePeriodType} from 'app/views/alerts/rules/details/body';
 import {getTabs, isForReviewQuery} from 'app/views/issueList/utils';
 
 const DiscoveryExclusionFields: string[] = [
@@ -81,7 +82,7 @@ type Props = {
   onDelete?: () => void;
   showInboxTime?: boolean;
   index?: number;
-  statsPeriodSummary?: string;
+  customStatsPeriod?: TimePeriodType;
   // TODO(ts): higher order functions break defaultprops export types
 } & Partial<typeof defaultProps>;
 
@@ -235,7 +236,7 @@ class StreamGroup extends React.Component<Props, State> {
   };
 
   getDiscoverUrl(isFiltered?: boolean) {
-    const {organization, query, selection} = this.props;
+    const {organization, query, selection, customStatsPeriod} = this.props;
     const {data} = this.state;
 
     // when there is no discover feature open events page
@@ -263,7 +264,7 @@ class StreamGroup extends React.Component<Props, State> {
     const searchQuery = (queryTerms.length ? ' ' : '') + queryTerms.join(' ');
 
     if (hasDiscoverQuery) {
-      const {period, start, end} = selection.datetime || {};
+      const {period, start, end} = customStatsPeriod ?? (selection.datetime || {});
 
       const discoverQuery: NewQuery = {
         ...commonQuery,
@@ -348,12 +349,12 @@ class StreamGroup extends React.Component<Props, State> {
       showInboxTime,
       onMarkReviewed,
       useFilteredStats,
-      statsPeriodSummary,
+      customStatsPeriod,
       onDelete,
     } = this.props;
 
     const {period, start, end} = selection.datetime || {};
-    const summary = statsPeriodSummary ?? (!!start && !!end
+    const summary = customStatsPeriod?.label.toLowerCase() ?? (!!start && !!end
         ? 'time range'
         : getRelativeSummary(period || DEFAULT_STATS_PERIOD).toLowerCase());
 
