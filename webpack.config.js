@@ -312,7 +312,9 @@ let appConfig = {
     /**
      * Extract CSS into separate files.
      */
-    new ExtractTextPlugin(),
+    new ExtractTextPlugin({
+      filename: '[name].[contenthash:6].css',
+    }),
 
     /**
      * Defines environment specific flags.
