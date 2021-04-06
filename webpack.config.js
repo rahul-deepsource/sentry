@@ -313,7 +313,9 @@ let appConfig = {
     /**
      * Extract CSS into separate files.
      */
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin({
+      filename: '[name].[contenthash:6].css',
+    }),
 
     /**
      * Defines environment specific flags.
