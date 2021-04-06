@@ -242,7 +242,7 @@ def devserver(
         daemons += [_get_daemon("ingest")]
 
     if needs_https and has_https:
-        print('needs https')
+        print("needs https")
         https_port = str(parsed_url.port)
         https_host = parsed_url.hostname
 
